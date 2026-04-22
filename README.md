@@ -1,72 +1,85 @@
-# Online Auction System
+# 🛒 Online Auction System
 
 Full-stack auction platform where sellers create auctions and buyers place real-time bids.
 
-## Features
+---
 
-- User authentication (register/login) with JWT.
-- Role-based behavior (`seller`, `buyer`, `admin`).
-- Sellers can create auction products.
-- Buyers can place bids via REST API and Socket.IO.
-- Highest bid is tracked and persisted in MongoDB.
-- Winner is the highest bidder when auction ends.
+## 🚀 Features
 
-## Tech Stack
+* 🔐 User authentication (register/login) using JWT
+* 👥 Role-based behavior (seller, buyer, admin)
+* 🛍️ Sellers can create auction products
+* 💰 Buyers can place bids via REST API and Socket.IO
+* 📊 Highest bid is tracked and stored in MongoDB
+* 🏆 Winner is the highest bidder when auction ends
 
-- Frontend: React + Vite + Axios + Socket.IO Client
-- Backend: Node.js + Express + Socket.IO
-- Database: MongoDB + Mongoose
-- Auth: JWT + bcrypt
+---
 
-## Project Structure
+## 🛠️ Tech Stack
 
-- `auction-backend/` - API server, auth, product and bid logic
-- `auction-frontend/` - React frontend
+* 🎨 Frontend: React + Vite + Axios + Socket.IO Client
+* ⚙️ Backend: Node.js + Express + Socket.IO
+* 🗄️ Database: MongoDB + Mongoose
+* 🔑 Authentication: JWT + bcrypt
 
-## How Bidding Works
+---
 
-1. User registers/logs in.
-2. Seller creates a product auction with `startingBid` and `endTime`.
-3. Buyer places a bid.
-4. Backend validates: `newBid > currentBid`.
-5. If valid:
-   - A new `Bid` document is inserted.
-   - Product `currentBid` is updated.
-   - Product `highestBidder` is updated.
-   - Bid history is appended to product `bids`.
-6. Live update is broadcast with Socket.IO (`newBid` event).
-7. Winner is the highest bidder after auction end.
+## 📁 Project Structure
 
-## Prerequisites
+* `auction-backend/` → API server, authentication, product & bid logic
+* `auction-frontend/` → React frontend
 
-- Node.js 18+ (recommended)
-- npm
-- MongoDB (local server or MongoDB Atlas)
+---
 
-## Environment Variables (Backend)
+## 🧠 How Bidding Works
 
-Create `auction-backend/.env`:
+1. 👤 User registers or logs in
 
-```env
-MONGO_URI=mongodb://127.0.0.1:27017/auctionDB
-JWT_SECRET=replace_with_a_secure_secret
-PORT=5000
+2. 🛍️ Seller creates an auction with `startingBid` and `endTime`
+
+3. 💸 Buyer places a bid
+
+4. ⚙️ Backend validates: `newBid > currentBid`
+
+5. ✅ If valid:
+
+   * New Bid document is created
+   * Product `currentBid` is updated
+   * Product `highestBidder` is updated
+   * Bid history is stored
+   * 📡 Live update sent using Socket.IO (`newBid` event)
+
+6. 🏁 Winner is the highest bidder after auction ends
+
+---
+
+## 📦 Prerequisites
+
+* Node.js (v18+ recommended)
+* npm
+* MongoDB (local server or MongoDB Atlas)
+
+---
+
+## ▶️ Run Locally
+
+### 1️⃣ Start MongoDB
+
+**Option 1 (Windows Service):**
+
+```bash
+net start MongoDB
 ```
 
-If using MongoDB Atlas, set `MONGO_URI` to your Atlas connection string.
+**Option 2 (Manual):**
 
-## Run Locally
+```bash
+mongod --dbpath C:\data\db
+```
 
-### 1) Start MongoDB
+---
 
-Use one of these methods:
-
-- Windows service (Admin terminal):
-  - `net start MongoDB`
-- Manual:
-  - `mongod --dbpath C:\data\db`
-
-### 2) Start Backend
+### 2️⃣ Start Backend
 
 ```bash
 cd auction-backend
@@ -74,9 +87,11 @@ npm install
 npm run dev
 ```
 
-Backend runs at `http://localhost:5000`.
+🌐 Backend runs at: http://localhost:5000
 
-### 3) Start Frontend
+---
+
+### 3️⃣ Start Frontend
 
 ```bash
 cd auction-frontend
@@ -84,47 +99,51 @@ npm install
 npm run dev
 ```
 
-Frontend runs at `http://localhost:5173`.
+🌐 Frontend runs at: http://localhost:5173
 
-## API Endpoints
+---
 
-### Auth
+## 📡 API Endpoints
 
-- `POST /api/auth/register`
-- `POST /api/auth/login`
+### 🔐 Auth
 
-### Products
+* POST `/api/auth/register`
+* POST `/api/auth/login`
 
-- `GET /api/products` - list auctions
-- `GET /api/products/:id` - single auction
-- `POST /api/products` - create auction (seller only, token required)
+---
 
-### Bids
+### 🛍️ Products
 
-- `GET /api/products/:productId/bids` - get all bids for product
-- `POST /api/products/:productId/bids` - place bid (token required)
+* GET `/api/products` → list all auctions
+* GET `/api/products/:id` → get single auction
+* POST `/api/products` → create auction (seller only)
 
-## Socket Events
+---
 
-- Client emits: `joinRoom` with `productId`
-- Client emits: `placeBid` with `{ productId, amount }`
-- Server emits: `newBid` with latest bid update
+### 💰 Bids
 
-## Common Issues
+* GET `/api/products/:productId/bids` → get all bids
+* POST `/api/products/:productId/bids` → place bid
 
-- MongoDB connection failed:
-  - Ensure `mongod` is running.
-  - Confirm `MONGO_URI` is correct.
-  - Prefer `mongodb://127.0.0.1:27017/auctionDB` for local setup.
-- `System error 5` on `net start MongoDB`:
-  - Run terminal as Administrator.
-- CORS issues:
-  - Frontend should run on `http://localhost:5173` (configured in backend).
+---
 
-## Future Improvements
+## 🔌 Socket Events
 
-- Automatic auction close job and winner finalization endpoint.
-- Payment integration for winner checkout.
-- Bid increment rules (minimum step amount).
-- Unit/integration test coverage.
+* 📥 Client emits: `joinRoom` with `productId`
+* 📤 Client emits: `placeBid` with `{ productId, amount }`
+* 📡 Server emits: `newBid` with latest bid update
 
+---
+
+## 🔮 Future Improvements
+
+* ⏳ Automatic auction closing system
+* 💳 Payment integration for winners
+* 📈 Minimum bid increment rules
+* 🧪 Unit and integration testing
+
+---
+
+## 👨‍💻 Author
+
+Mahesh Pendem
