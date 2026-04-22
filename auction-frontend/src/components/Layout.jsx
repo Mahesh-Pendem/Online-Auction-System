@@ -1,24 +1,36 @@
 import { Link, NavLink, Outlet } from "react-router-dom";
 
 export default function Layout({ token, viewer, onLogout, message }) {
+  const userName = viewer?.name || "User";
+  const userInitial = userName.trim().charAt(0).toUpperCase() || "U";
+
   return (
     <div className="page">
       <header className="hero">
         <div className="panel-head">
           <div>
-            <h1>NeonBid Marketplace</h1>
+            <h1>Mahesh Pendem's Online Auction System</h1>
             <p>Live auctions with bright vibes and instant bidding.</p>
           </div>
           <div className="nav-meta">
-            {token ? <span>{viewer?.name || "User"} ({viewer?.role})</span> : <span>Guest</span>}
+            {token ? (
+              <span className="user-badge" title={userName}>
+                {userInitial}
+              </span>
+            ) : null}
             {token ? (
               <button className="ghost" onClick={onLogout}>
                 Logout
               </button>
             ) : (
-              <Link to="/auth" className="nav-btn">
-                Login
-              </Link>
+              <>
+                <Link to="/auth" className="nav-btn">
+                  Register
+                </Link>
+                <Link to="/auth" className="nav-btn">
+                  Login
+                </Link>
+              </>
             )}
           </div>
         </div>
