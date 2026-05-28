@@ -1,22 +1,15 @@
 # Online Auction System
 
-Full-stack auction platform where sellers create auctions and buyers place bids in real time.
+Full-stack auction platform with a colorful gradient UI. Sellers create auctions; buyers place bids in real time.
 
 ## Project Structure
 
-- `frontend/` - React + Vite client app
-- `backend/` - Express + MongoDB API
+- `frontend/` — React + Vite (deploy on **Vercel**)
+- `backend/` — Express + MongoDB + Socket.IO (deploy on **Render**)
 
-## Features
+## Local Development
 
-- JWT register/login authentication
-- Role-based access (`seller`, `buyer`, `admin`)
-- Create and browse auctions
-- Place bids via REST + optional Socket.IO live updates
-
-## Local Setup
-
-### 1) Backend
+### Backend
 
 ```bash
 cd backend
@@ -25,16 +18,16 @@ copy .env.example .env
 npm run dev
 ```
 
-Set values in `backend/.env`:
+`backend/.env`:
 
 ```env
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret
+MONGO_URI=your_mongodb_atlas_uri
+JWT_SECRET=your_long_random_secret
 PORT=5000
 FRONTEND_URL=http://localhost:5173
 ```
 
-### 2) Frontend
+### Frontend
 
 ```bash
 cd frontend
@@ -43,35 +36,56 @@ copy .env.example .env
 npm run dev
 ```
 
-## Free Deployment (Full Stack)
+## Build
 
-Deploy as two free projects:
+```bash
+cd backend && npm install
+cd ../frontend && npm install && npm run build
+```
 
-### A) Backend on Render (Free Web Service)
+## Deploy (Free)
 
-1. Push code to GitHub.
-2. Create a new Web Service in Render and select this repo.
-3. Set Root Directory to `backend`.
-4. Build Command: `npm install`
-5. Start Command: `npm start`
-6. Add environment variables:
-   - `MONGO_URI`
-   - `JWT_SECRET`
-   - `FRONTEND_URL` (your frontend URL after deploy)
+### 1) MongoDB Atlas (free)
 
-### B) Frontend on Vercel (Free)
+1. Create a free cluster at [mongodb.com/atlas](https://www.mongodb.com/atlas).
+2. Create a database user and allow access from anywhere (`0.0.0.0/0`) for development.
+3. Copy the connection string into `MONGO_URI`.
 
-1. Create a Vercel project with Root Directory `frontend`.
-2. Add environment variables:
-   - `VITE_API_BASE_URL=https://your-render-backend.onrender.com/api`
-   - `VITE_SOCKET_URL=https://your-render-backend.onrender.com`
-   - `VITE_ENABLE_SOCKET=true`
-3. Deploy.
+### 2) Backend on Render (free)
 
-### Alternative: Vercel + Vercel
+1. Push this repo to GitHub.
+2. [dashboard.render.com](https://dashboard.render.com) → **New** → **Blueprint** (or Web Service).
+3. Connect the repo; set **Root Directory** to `backend`.
+4. **Build Command:** `npm install`  
+   **Start Command:** `npm start`
+5. Environment variables:
+   - `MONGO_URI` — Atlas connection string
+   - `JWT_SECRET` — long random string
+   - `FRONTEND_URL` — your Vercel URL (add after step 3)
+6. Deploy and copy the URL, e.g. `https://online-auction-api.onrender.com`.
 
-You can host both on Vercel, but set:
+Or use the included `render.yaml` at repo root for a Blueprint deploy.
 
-- `VITE_ENABLE_SOCKET=false`
+### 3) Frontend on Vercel (free)
 
-because Vercel serverless does not reliably support persistent Socket.IO connections.
+1. [vercel.com](https://vercel.com) → **Add New Project** → import the same GitHub repo.
+2. **Root Directory:** `frontend`
+3. Environment variables:
+
+```env
+VITE_API_BASE_URL=https://YOUR-RENDER-URL.onrender.com/api
+VITE_SOCKET_URL=https://YOUR-RENDER-URL.onrender.com
+VITE_ENABLE_SOCKET=true
+```
+
+4. Deploy.
+
+### 4) Finish CORS
+
+In Render, set `FRONTEND_URL` to your Vercel URL (e.g. `https://your-app.vercel.app`) and redeploy the backend.
+
+## API
+
+- `POST /api/auth/register` · `POST /api/auth/login`
+- `GET /api/products` · `GET /api/products/:id` · `POST /api/products`
+- `GET|POST /api/products/:productId/bids`

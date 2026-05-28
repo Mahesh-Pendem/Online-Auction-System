@@ -23,8 +23,9 @@ export default function AuctionsPage({ products, onRefresh }) {
           <article className="auction-card" key={item._id} onClick={() => navigate(`/auctions/${item._id}`)}>
             <h3>{item.title}</h3>
             <p>{item.description || "No description added."}</p>
+            <span className="price-tag">{money(item.currentBid || item.startingBid)}</span>
             <div className="meta">
-              <span>Current: {money(item.currentBid || item.startingBid)}</span>
+              <span>Live bid</span>
               <span>Ends: {new Date(item.endTime).toLocaleString()}</span>
             </div>
           </article>

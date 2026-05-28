@@ -6,13 +6,17 @@ const app = require("./app");
 const { connectDb } = require("./lib/db");
 
 const bidController = require("./controllers/bidController");
+const { isAllowedOrigin } = require("./lib/cors");
 
 const server = http.createServer(app);
 
-// Socket.io
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000", "http://localhost:5173", process.env.FRONTEND_URL].filter(Boolean)
+    origin(origin, callback) {
+      if (isAllowedOrigin(origin)) return callback(null, true);
+      return callback(new Error("CORS not allowed"));
+    },
+    credentials: true
   }
 });
 
