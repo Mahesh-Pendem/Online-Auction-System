@@ -55,6 +55,7 @@ export default function App() {
     if (socketRef.current) socketRef.current.disconnect();
     const socket = createSocket(token);
     socketRef.current = socket;
+    if (!socket) return;
     socket.on("newBid", (incomingBid) => {
       const amount = Number(incomingBid?.amount || 0);
       if (!amount || !roomRef.current) return;

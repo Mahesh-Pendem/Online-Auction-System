@@ -9,7 +9,7 @@ export default function Layout({ token, viewer, onLogout, message }) {
       <header className="hero">
         <div className="panel-head">
           <div>
-            <h1>Mahesh Pendem's Online Auction System</h1>
+            <h1>Online Auction Sysyem</h1>
             <p>Live auctions with bright vibes and instant bidding.</p>
           </div>
           <div className="nav-meta">

@@ -1,7 +1,15 @@
 import { io } from "socket.io-client";
 
-export const API_BASE = "http://localhost:5000/api";
-export const SOCKET_BASE = "http://localhost:5000";
+const trimSlash = (value = "") => value.replace(/\/+$/, "");
+const defaultApiBase = import.meta.env.PROD ? "/api" : "http://localhost:5000/api";
+const defaultSocketBase = import.meta.env.PROD ? window.location.origin : "http://localhost:5000";
+
+export const API_BASE = trimSlash(
+  import.meta.env.VITE_API_BASE_URL || defaultApiBase
+);
+export const SOCKET_BASE = trimSlash(
+  import.meta.env.VITE_SOCKET_URL || defaultSocketBase
+);
 
 export function parseJwt(token) {
   try {
@@ -36,7 +44,9 @@ export async function apiFetch(path, options = {}, token) {
 }
 
 export function createSocket(token) {
+  if (import.meta.env.VITE_ENABLE_SOCKET === "false") return null;
   return io(SOCKET_BASE, {
-    auth: token ? { token } : {}
+    auth: token ? { token } : {},
+    transports: ["websocket", "polling"]
   });
 }

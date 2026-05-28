@@ -1,149 +1,77 @@
-# 🛒 Online Auction System
+# Online Auction System
 
-Full-stack auction platform where sellers create auctions and buyers place real-time bids.
+Full-stack auction platform where sellers create auctions and buyers place bids in real time.
 
----
+## Project Structure
 
-## 🚀 Features
+- `frontend/` - React + Vite client app
+- `backend/` - Express + MongoDB API
 
-* 🔐 User authentication (register/login) using JWT
-* 👥 Role-based behavior (seller, buyer, admin)
-* 🛍️ Sellers can create auction products
-* 💰 Buyers can place bids via REST API and Socket.IO
-* 📊 Highest bid is tracked and stored in MongoDB
-* 🏆 Winner is the highest bidder when auction ends
+## Features
 
----
+- JWT register/login authentication
+- Role-based access (`seller`, `buyer`, `admin`)
+- Create and browse auctions
+- Place bids via REST + optional Socket.IO live updates
 
-## 🛠️ Tech Stack
+## Local Setup
 
-* 🎨 Frontend: React + Vite + Axios + Socket.IO Client
-* ⚙️ Backend: Node.js + Express + Socket.IO
-* 🗄️ Database: MongoDB + Mongoose
-* 🔑 Authentication: JWT + bcrypt
-
----
-
-## 📁 Project Structure
-
-* `auction-backend/` → API server, authentication, product & bid logic
-* `auction-frontend/` → React frontend
-
----
-
-## 🧠 How Bidding Works
-
-1. 👤 User registers or logs in
-
-2. 🛍️ Seller creates an auction with `startingBid` and `endTime`
-
-3. 💸 Buyer places a bid
-
-4. ⚙️ Backend validates: `newBid > currentBid`
-
-5. ✅ If valid:
-
-   * New Bid document is created
-   * Product `currentBid` is updated
-   * Product `highestBidder` is updated
-   * Bid history is stored
-   * 📡 Live update sent using Socket.IO (`newBid` event)
-
-6. 🏁 Winner is the highest bidder after auction ends
-
----
-
-## 📦 Prerequisites
-
-* Node.js (v18+ recommended)
-* npm
-* MongoDB (local server or MongoDB Atlas)
-
----
-
-## ▶️ Run Locally
-
-### 1️⃣ Start MongoDB
-
-**Option 1 (Windows Service):**
+### 1) Backend
 
 ```bash
-net start MongoDB
-```
-
-**Option 2 (Manual):**
-
-```bash
-mongod --dbpath C:\data\db
-```
-
----
-
-### 2️⃣ Start Backend
-
-```bash
-cd auction-backend
+cd backend
 npm install
+copy .env.example .env
 npm run dev
 ```
 
-🌐 Backend runs at: http://localhost:5000
+Set values in `backend/.env`:
 
----
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret
+PORT=5000
+FRONTEND_URL=http://localhost:5173
+```
 
-### 3️⃣ Start Frontend
+### 2) Frontend
 
 ```bash
-cd auction-frontend
+cd frontend
 npm install
+copy .env.example .env
 npm run dev
 ```
 
-🌐 Frontend runs at: http://localhost:5173
+## Free Deployment (Full Stack)
 
----
+Deploy as two free projects:
 
-## 📡 API Endpoints
+### A) Backend on Render (Free Web Service)
 
-### 🔐 Auth
+1. Push code to GitHub.
+2. Create a new Web Service in Render and select this repo.
+3. Set Root Directory to `backend`.
+4. Build Command: `npm install`
+5. Start Command: `npm start`
+6. Add environment variables:
+   - `MONGO_URI`
+   - `JWT_SECRET`
+   - `FRONTEND_URL` (your frontend URL after deploy)
 
-* POST `/api/auth/register`
-* POST `/api/auth/login`
+### B) Frontend on Vercel (Free)
 
----
+1. Create a Vercel project with Root Directory `frontend`.
+2. Add environment variables:
+   - `VITE_API_BASE_URL=https://your-render-backend.onrender.com/api`
+   - `VITE_SOCKET_URL=https://your-render-backend.onrender.com`
+   - `VITE_ENABLE_SOCKET=true`
+3. Deploy.
 
-### 🛍️ Products
+### Alternative: Vercel + Vercel
 
-* GET `/api/products` → list all auctions
-* GET `/api/products/:id` → get single auction
-* POST `/api/products` → create auction (seller only)
+You can host both on Vercel, but set:
 
----
+- `VITE_ENABLE_SOCKET=false`
 
-### 💰 Bids
-
-* GET `/api/products/:productId/bids` → get all bids
-* POST `/api/products/:productId/bids` → place bid
-
----
-
-## 🔌 Socket Events
-
-* 📥 Client emits: `joinRoom` with `productId`
-* 📤 Client emits: `placeBid` with `{ productId, amount }`
-* 📡 Server emits: `newBid` with latest bid update
-
----
-
-## 🔮 Future Improvements
-
-* ⏳ Automatic auction closing system
-* 💳 Payment integration for winners
-* 📈 Minimum bid increment rules
-* 🧪 Unit and integration testing
-
----
-
-## 👨‍💻 Author
-
-Mahesh Pendem
+because Vercel serverless does not reliably support persistent Socket.IO connections.

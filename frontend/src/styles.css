@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, "Segoe UI", Roboto, sans-serif;
-  color: #f7f8ff;
-  background: #0b1020;
+  color: #f8faff;
+  background: #080d1f;
 }
 
 * {
@@ -11,7 +11,12 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: radial-gradient(circle at 10% 20%, #4834d4 0%, #0b1020 45%, #0f172a 100%);
+  background:
+    radial-gradient(circle at 8% 12%, rgba(56, 189, 248, 0.36), transparent 40%),
+    radial-gradient(circle at 85% 5%, rgba(244, 114, 182, 0.28), transparent 42%),
+    radial-gradient(circle at 92% 88%, rgba(129, 140, 248, 0.26), transparent 38%),
+    linear-gradient(135deg, #070b17 0%, #0f1630 55%, #1f0f3f 100%);
+  background-attachment: fixed;
 }
 
 .page {
@@ -23,8 +28,15 @@ body {
 .hero {
   border-radius: 20px;
   padding: 22px;
-  background: linear-gradient(120deg, rgba(29, 78, 216, 0.85), rgba(147, 51, 234, 0.8), rgba(236, 72, 153, 0.75));
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+  background: linear-gradient(
+    120deg,
+    rgba(14, 165, 233, 0.88) 0%,
+    rgba(59, 130, 246, 0.82) 28%,
+    rgba(139, 92, 246, 0.82) 66%,
+    rgba(236, 72, 153, 0.84) 100%
+  );
+  box-shadow: 0 16px 40px rgba(10, 12, 40, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .hero h1 {
@@ -70,8 +82,8 @@ body {
   color: #fff;
   border-radius: 10px;
   padding: 8px 12px;
-  background: rgba(148, 163, 184, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.45), rgba(88, 28, 135, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.26);
 }
 
 .nav-bar a.active {
@@ -79,8 +91,9 @@ body {
 }
 
 .global-message {
-  color: #86efac;
+  color: #bbf7d0;
   margin: 6px 0 8px;
+  text-shadow: 0 0 14px rgba(34, 197, 94, 0.35);
 }
 
 .layout {
@@ -91,12 +104,12 @@ body {
 }
 
 .panel {
-  background: rgba(15, 23, 42, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  backdrop-filter: blur(7px);
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.82), rgba(30, 41, 59, 0.7));
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(10px);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.32);
 }
 
 .panel h2 {
@@ -127,8 +140,9 @@ button {
   padding: 10px 14px;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(120deg, #2563eb, #9333ea);
+  background: linear-gradient(120deg, #2563eb, #8b5cf6, #ec4899);
   transition: transform 0.15s ease, filter 0.15s ease;
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
 }
 
 .tabs button.active {
@@ -146,8 +160,8 @@ button:disabled {
 }
 
 .ghost {
-  background: rgba(148, 163, 184, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(120deg, rgba(30, 41, 59, 0.55), rgba(88, 28, 135, 0.35));
+  border: 1px solid rgba(255, 255, 255, 0.24);
 }
 
 .form,
@@ -167,8 +181,8 @@ textarea {
   width: 100%;
   border-radius: 12px;
   padding: 10px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: linear-gradient(120deg, rgba(15, 23, 42, 0.92), rgba(30, 41, 59, 0.84));
   color: #fff;
 }
 
@@ -184,10 +198,17 @@ textarea::placeholder {
 
 .auction-card {
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   padding: 12px;
-  background: linear-gradient(130deg, rgba(30, 41, 59, 0.95), rgba(51, 65, 85, 0.7));
+  background: linear-gradient(125deg, rgba(30, 41, 59, 0.95), rgba(79, 70, 229, 0.42), rgba(236, 72, 153, 0.24));
   cursor: pointer;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.16s ease;
+}
+
+.auction-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(99, 102, 241, 0.55);
+  box-shadow: 0 10px 25px rgba(79, 70, 229, 0.2);
 }
 
 .auction-card.selected {
@@ -208,10 +229,10 @@ textarea::placeholder {
 }
 
 .viewer-card {
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 12px;
   padding: 10px;
-  background: rgba(30, 41, 59, 0.7);
+  background: linear-gradient(130deg, rgba(30, 41, 59, 0.8), rgba(6, 182, 212, 0.18));
 }
 
 .message {
@@ -238,5 +259,5 @@ textarea::placeholder {
   align-items: center;
   border-radius: 10px;
   padding: 8px 10px;
-  background: rgba(59, 130, 246, 0.16);
+  background: linear-gradient(120deg, rgba(37, 99, 235, 0.26), rgba(168, 85, 247, 0.22));
 }
