@@ -4,6 +4,7 @@ import { money } from "../utils";
 
 export default function AuctionsPage({ products, onRefresh }) {
   const navigate = useNavigate();
+  const list = Array.isArray(products) ? products : [];
 
   useEffect(() => {
     onRefresh();
@@ -18,8 +19,8 @@ export default function AuctionsPage({ products, onRefresh }) {
         </button>
       </div>
       <div className="grid">
-        {products.length === 0 && <p className="muted">No auctions yet.</p>}
-        {products.map((item) => (
+        {list.length === 0 && <p className="muted">No auctions yet.</p>}
+        {list.map((item) => (
           <article className="auction-card" key={item._id} onClick={() => navigate(`/auctions/${item._id}`)}>
             <h3>{item.title}</h3>
             <p>{item.description || "No description added."}</p>

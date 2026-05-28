@@ -22,12 +22,20 @@ export default function App() {
   const socketRef = useRef(null);
   const roomRef = useRef("");
 
+  function normalizeList(value) {
+    if (Array.isArray(value)) return value;
+    if (Array.isArray(value?.products)) return value.products;
+    if (Array.isArray(value?.data)) return value.data;
+    return [];
+  }
+
   const loadProducts = useCallback(async () => {
     try {
       const list = await apiFetch("/products");
-      setProducts(list);
+      setProducts(normalizeList(list));
     } catch (err) {
       setMessage(err.message);
+      setProducts([]);
     }
   }, []);
 
@@ -38,7 +46,7 @@ export default function App() {
         apiFetch(`/products/${productId}/bids`).catch(() => [])
       ]);
       setActiveProduct(product);
-      setBids(bidList);
+      setBids(Array.isArray(bidList) ? bidList : []);
     } catch (err) {
       setMessage(err.message);
     }
